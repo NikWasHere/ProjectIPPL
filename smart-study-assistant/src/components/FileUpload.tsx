@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Upload, FileText, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { validatePDFFile } from '@/lib/helpers'
+import { FILE_UPLOAD, MESSAGES } from '@/lib/constants'
 
 interface FileUploadProps {
   onFileSelect: (file: File) => void
@@ -30,15 +32,10 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     const file = files[0]
     setError('')
     
-    // Validate file type
-    if (!file.name.toLowerCase().endsWith('.pdf')) {
-      setError('Hanya file PDF yang diperbolehkan')
-      return
-    }
-    
-    // Validate file size
-    if (file.size > maxSize * 1024 * 1024) {
-      setError(`Ukuran file maksimal ${maxSize}MB`)
+    // Validate file using helper function
+    const validation = validatePDFFile(file)
+    if (!validation.isValid) {
+      setError(validation.error || MESSAGES.errors.fileType)
       return
     }
     
@@ -64,7 +61,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       onTextExtracted(data.text, file.name)
     } catch (error) {
       console.error('Error extracting text:', error)
-      setError('Gagal mengekstrak teks dari PDF. Pastikan file PDF tidak terlindungi.')
+      setError(MESSAGES.errors.pdfExtractFailed)
     } finally {
       setIsProcessing(false)
     }
@@ -138,7 +135,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
             Pilih File PDF
           </Button>
           <p className="text-xs text-gray-400 mt-2">
-            Maksimal {maxSize}MB
+            Maksimal {FILE_UPLOAD.maxSizeMB}MB
           </p>
         </div>
       ) : (

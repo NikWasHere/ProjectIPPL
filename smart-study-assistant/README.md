@@ -1,36 +1,146 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SmartStudy AI - Asisten Belajar Cerdas 🧠
 
-## Getting Started
+Website asisten belajar cerdas yang responsive menggunakan Next.js dan MySQL. Aplikasi ini membantu mengubah materi pembelajaran menjadi kuis interaktif atau ringkasan yang mudah dipahami dengan bantuan kecerdasan buatan.
 
-First, run the development server:
+## ✨ Fitur Utama
+
+### 📚 Input Materi
+- **Upload PDF**: Upload file PDF dan ekstrak teks secara otomatis
+- **Input Manual**: Masukkan teks materi pembelajaran langsung
+- **Validasi File**: Validasi ukuran dan format file PDF
+
+### 🎯 Mode Pembelajaran
+- **Kuis Otomatis**: 
+  - Pilihan Ganda dengan 4 opsi jawaban
+  - Esai dengan panduan jawaban
+  - Pengacakan pertanyaan berdasarkan materi
+- **Ringkasan Cerdas**:
+  - Poin-poin kunci dari materi
+  - Kompresi teks yang efektif
+  - Format yang mudah dibaca
+
+### 💡 Fitur Tambahan
+- **Salin Hasil**: Copy hasil kuis/ringkasan dengan satu klik
+- **Responsive Design**: Tampilan optimal di semua perangkat
+- **Loading Indicator**: Feedback visual saat pemrosesan
+- **Error Handling**: Pesan error yang informatif
+
+## 🛠️ Teknologi
+
+- **Frontend**: Next.js 15, React, TypeScript
+- **Styling**: Tailwind CSS, Lucide React Icons
+- **Database**: MySQL dengan Prisma ORM
+- **PDF Processing**: PDF-Parse library
+- **UI Components**: Custom shadcn/ui components
+
+## 🚀 Quick Start
 
 ```bash
+# Install dependencies
+npm install
+
+# Setup environment variables (buat .env.local)
+DATABASE_URL="mysql://username:password@localhost:3306/smart_study_assistant"
+
+# Generate Prisma Client
+npx prisma generate
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📖 Cara Penggunaan
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Input Materi
+- **Upload PDF**: Klik tombol upload atau drag & drop file PDF
+- **Input Manual**: Ketik atau paste teks di textarea
 
-## Learn More
+### 2. Pilih Mode
+- **Kuis**: Untuk membuat pertanyaan dari materi
+- **Ringkasan**: Untuk meringkas materi menjadi poin-poin kunci
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Pilih Tipe (khusus Kuis)
+- **Pilihan Ganda**: 4 pilihan dengan 1 jawaban benar
+- **Esai**: Pertanyaan terbuka dengan panduan jawaban
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 4. Generate & Salin
+- Klik tombol "Generate" untuk memproses
+- Gunakan tombol "Salin" untuk copy hasil
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🏗️ Struktur Project
 
-## Deploy on Vercel
+```
+smart-study-assistant/
+├── src/
+│   ├── app/
+│   │   ├── api/
+│   │   │   ├── extract-text/          # PDF text extraction
+│   │   │   ├── generate-quiz/         # Quiz generation
+│   │   │   └── generate-summary/      # Summary generation
+│   │   ├── globals.css               # Global styles
+│   │   ├── layout.tsx                # Root layout
+│   │   └── page.tsx                  # Home page
+│   ├── components/
+│   │   ├── ui/                       # Reusable UI components
+│   │   ├── FileUpload.tsx            # PDF upload component
+│   │   └── Logo.tsx                  # Brand logo
+│   └── lib/
+│       ├── db.ts                     # Database connection
+│       └── utils.ts                  # Utility functions
+├── prisma/
+│   └── schema.prisma                 # Database schema
+└── public/                           # Static assets
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🎨 Design System (Monochrome)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Primary**: Gray-900 (#111827)
+- **Secondary**: Gray-600 (#4B5563) 
+- **Background**: White (#FFFFFF)
+- **Surface**: Gray-50 (#F9FAFB)
+- **Typography**: Geist Sans & Mono
+
+## 📱 Responsive Design
+
+- **Mobile**: < 640px
+- **Tablet**: 640px - 1024px  
+- **Desktop**: > 1024px
+
+## 🔧 Kustomisasi
+
+### Menambah AI Provider Real
+Edit file API routes untuk mengintegrasikan dengan OpenAI atau provider AI lainnya:
+
+```typescript
+// src/app/api/generate-quiz/route.ts
+const response = await openai.chat.completions.create({
+  model: "gpt-3.5-turbo",
+  messages: [{ role: "user", content: prompt }]
+})
+```
+
+## 📄 API Endpoints
+
+- `POST /api/extract-text` - Ekstrak teks dari PDF
+- `POST /api/generate-quiz` - Generate kuis dari teks  
+- `POST /api/generate-summary` - Generate ringkasan dari teks
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+1. Push ke GitHub
+2. Connect di Vercel
+3. Setup environment variables
+4. Deploy
+
+### Build Production
+```bash
+npm run build
+npm start
+```
+
+---
+
+**SmartStudy AI** - Membuat pembelajaran lebih efektif dengan kecerdasan buatan! 🎓✨
