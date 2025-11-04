@@ -3,6 +3,9 @@
 import React, { useState } from 'react'
 import { Logo } from '@/components/Logo'
 import { FileUpload } from '@/components/FileUpload'
+import { UserMenu } from '@/components/UserMenu'
+import { HistorySidebar } from '@/components/HistorySidebar'
+import { AuthModal } from '@/components/AuthModal'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
@@ -16,7 +19,8 @@ import {
   AlertCircle,
   Sparkles,
   Brain,
-  Target
+  Target,
+  History
 } from 'lucide-react'
 
 interface QuizQuestion {
@@ -40,6 +44,9 @@ export default function Home() {
   const [result, setResult] = useState<QuizQuestion[] | Summary | null>(null)
   const [copied, setCopied] = useState(false)
   const [error, setError] = useState('')
+  const [showAuthModal, setShowAuthModal] = useState(false)
+  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login')
+  const [showHistory, setShowHistory] = useState(false)
 
   const handleFileSelect = (file: File) => {
     console.log('File selected:', file.name)
@@ -147,15 +154,45 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <Logo size="md" />
-            <div className="flex items-center space-x-4 text-sm text-gray-600">
-              <div className="flex items-center space-x-1">
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-1 text-sm text-gray-600">
                 <Sparkles className="h-4 w-4" />
                 <span>AI Powered</span>
               </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowHistory(!showHistory)}
+                className="flex items-center space-x-2"
+              >
+                <History className="h-4 w-4" />
+                <span>Riwayat</span>
+              </Button>
+              <UserMenu 
+                onHistoryClick={() => setShowHistory(true)}
+                onAuthClick={(mode) => {
+                  setAuthMode(mode)
+                  setShowAuthModal(true)
+                }} 
+              />
             </div>
           </div>
         </div>
       </header>
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        mode={authMode}
+        onSwitch={setAuthMode}
+      />
+
+      {/* History Sidebar */}
+      <HistorySidebar
+        isOpen={showHistory}
+        onClose={() => setShowHistory(false)}
+      />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}

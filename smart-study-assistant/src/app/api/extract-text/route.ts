@@ -1,24 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-// Simple PDF text extraction - for now returns placeholder
-// In production, you would use a proper PDF parsing library
+// PDF text extraction using pdf-parse library
 async function parsePDF(buffer: Buffer) {
-  // This is a placeholder implementation
-  // For a real implementation, you would use pdf-parse or similar library
-  // For now, we'll return a sample text to test the functionality
-  
-  return {
-    text: `Ini adalah contoh teks yang diekstrak dari PDF.
+  try {
+    // Dynamic import to handle ES module
+    const { PDFParse } = await import('pdf-parse')
+    const parser = new PDFParse({ data: buffer })
+    const textResult = await parser.getText()
+    await parser.destroy()
     
-Materi Pembelajaran:
-1. Sejarah Indonesia dimulai dari zaman prasejarah
-2. Proklamasi kemerdekaan dibacakan oleh Soekarno
-3. Pancasila adalah dasar negara Indonesia
-4. UUD 1945 adalah konstitusi negara
-5. Bhinneka Tunggal Ika adalah semboyan persatuan
-
-Silakan ganti dengan teks asli dari PDF Anda untuk pengujian yang lebih akurat.`,
-    numpages: 1
+    return {
+      text: textResult.text,
+      numpages: textResult.total
+    }
+  } catch (error) {
+    console.error('PDF parsing error:', error)
+    throw new Error('Gagal mengekstrak teks dari PDF')
   }
 }
 
