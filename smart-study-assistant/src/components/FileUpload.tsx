@@ -113,7 +113,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       {!selectedFile ? (
         <div
           className={cn(
-            'border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors',
+            'border-2 border-dashed rounded-lg p-4 sm:p-6 md:p-8 text-center cursor-pointer transition-colors',
             dragActive
               ? 'border-gray-900 bg-gray-50'
               : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
@@ -124,39 +124,39 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           onDrop={handleDrop}
           onClick={openFileDialog}
         >
-          <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
+          <Upload className="mx-auto h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 text-gray-400 mb-2 sm:mb-3 md:mb-4" />
+          <h3 className="text-sm sm:text-base md:text-lg font-medium text-gray-900 mb-1 sm:mb-2">
             Upload File PDF
           </h3>
-          <p className="text-sm text-gray-500 mb-4">
+          <p className="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4 px-2">
             Seret dan lepas file PDF di sini, atau klik untuk memilih file
           </p>
-          <Button variant="outline" type="button">
+          <Button variant="outline" type="button" size="sm" className="text-xs sm:text-sm">
             Pilih File PDF
           </Button>
-          <p className="text-xs text-gray-400 mt-2">
+          <p className="text-[10px] sm:text-xs text-gray-400 mt-1.5 sm:mt-2">
             Maksimal {FILE_UPLOAD.maxSizeMB}MB
           </p>
         </div>
       ) : (
-        <div className="border border-gray-200 rounded-lg p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <FileText className="h-8 w-8 text-gray-600" />
-              <div>
-                <p className="text-sm font-medium text-gray-900">
+        <div className="border border-gray-200 rounded-lg p-3 sm:p-4">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+              <FileText className="h-6 w-6 sm:h-8 sm:w-8 text-gray-600 flex-shrink-0" />
+              <div className="min-w-0">
+                <p className="text-xs sm:text-sm font-medium text-gray-900 truncate">
                   {selectedFile.name}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-[10px] sm:text-xs text-gray-500">
                   {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
                 </p>
               </div>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
               {isProcessing && (
-                <div className="flex items-center space-x-2 text-sm text-gray-600">
-                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-gray-300 border-t-gray-900"></div>
-                  <span>Memproses...</span>
+                <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-gray-600">
+                  <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-2 border-gray-300 border-t-gray-900"></div>
+                  <span className="hidden sm:inline">Memproses...</span>
                 </div>
               )}
               <Button
@@ -164,14 +164,15 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                 size="sm"
                 onClick={removeFile}
                 disabled={isProcessing}
+                className="p-1 sm:p-2"
               >
-                <X className="h-4 w-4" />
+                <X className="h-3 w-3 sm:h-4 sm:w-4" />
               </Button>
             </div>
           </div>
           
           {error && (
-            <div className="mt-2 text-sm text-red-600 bg-red-50 p-2 rounded">
+            <div className="mt-2 text-xs sm:text-sm text-red-600 bg-red-50 p-2 rounded">
               {error}
             </div>
           )}
@@ -179,7 +180,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       )}
       
       {error && !selectedFile && (
-        <div className="mt-2 text-sm text-red-600 bg-red-50 p-2 rounded">
+        <div className="mt-2 text-xs sm:text-sm text-red-600 bg-red-50 p-2 rounded">
           {error}
         </div>
       )}

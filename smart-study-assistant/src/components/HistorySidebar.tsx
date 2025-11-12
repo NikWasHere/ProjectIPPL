@@ -47,55 +47,55 @@ export function HistorySidebar({ isOpen, onClose }: {
 
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex justify-end">
-      <div className="w-full max-w-2xl bg-white h-full overflow-y-auto shadow-2xl">
-        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-gray-900">History</h2>
+      <div className="w-full max-w-full sm:max-w-md md:max-w-lg lg:max-w-2xl bg-white h-full overflow-y-auto shadow-2xl">
+        <div className="sticky top-0 bg-white border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">History</h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {loading ? (
             <div className="flex items-center justify-center py-12">
-              <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+              <Loader2 className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-gray-400" />
             </div>
           ) : history.length === 0 ? (
             <div className="text-center py-12">
-              <FileText className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500">No history yet</p>
-              <p className="text-sm text-gray-400 mt-1">
+              <FileText className="w-10 h-10 sm:w-12 sm:h-12 text-gray-300 mx-auto mb-3 sm:mb-4" />
+              <p className="text-sm sm:text-base text-gray-500">No history yet</p>
+              <p className="text-xs sm:text-sm text-gray-400 mt-1 px-4">
                 Your generated quizzes and summaries will appear here
               </p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {history.map((item) => (
                 <Card
                   key={item.id}
-                  className="p-4 hover:shadow-md transition-shadow cursor-pointer"
+                  className="p-3 sm:p-4 hover:shadow-md transition-shadow cursor-pointer"
                   onClick={() => setSelectedItem(item)}
                 >
-                  <div className="flex items-start space-x-3">
-                    <div className={`p-2 rounded-lg ${
+                  <div className="flex items-start gap-2 sm:gap-3">
+                    <div className={`p-1.5 sm:p-2 rounded-lg flex-shrink-0 ${
                       item.type === 'quiz' 
                         ? 'bg-blue-100 text-blue-600' 
                         : 'bg-green-100 text-green-600'
                     }`}>
                       {item.type === 'quiz' ? (
-                        <ClipboardList className="w-5 h-5" />
+                        <ClipboardList className="w-4 h-4 sm:w-5 sm:h-5" />
                       ) : (
-                        <FileText className="w-5 h-5" />
+                        <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
                       )}
                     </div>
                     
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">{item.title}</h3>
-                      <div className="flex items-center space-x-2 mt-1 text-sm text-gray-500">
-                        <Calendar className="w-4 h-4" />
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-sm sm:text-base text-gray-900 truncate">{item.title}</h3>
+                      <div className="flex items-center gap-1 sm:gap-2 mt-1 text-xs sm:text-sm text-gray-500">
+                        <Calendar className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                         <span>{new Date(item.createdAt).toLocaleDateString()}</span>
                       </div>
                     </div>
@@ -107,23 +107,23 @@ export function HistorySidebar({ isOpen, onClose }: {
         </div>
 
         {selectedItem && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <Card className="w-full max-w-3xl max-h-[80vh] overflow-y-auto p-6 bg-white">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold">{selectedItem.title}</h3>
-                <button onClick={() => setSelectedItem(null)}>
-                  <X className="w-5 h-5" />
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3 sm:p-4">
+            <Card className="w-full max-w-full sm:max-w-2xl md:max-w-3xl max-h-[85vh] sm:max-h-[80vh] overflow-y-auto p-4 sm:p-6 bg-white">
+              <div className="flex items-center justify-between gap-2 mb-3 sm:mb-4">
+                <h3 className="text-base sm:text-lg md:text-xl font-bold truncate">{selectedItem.title}</h3>
+                <button onClick={() => setSelectedItem(null)} className="flex-shrink-0">
+                  <X className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </div>
               
-              <div className="prose max-w-none">
+              <div className="prose prose-sm sm:prose max-w-none">
                 {selectedItem.type === 'quiz' ? (
-                  <div className="space-y-4">
+                  <div className="space-y-3 sm:space-y-4">
                     {selectedItem.content.questions?.map((q: any, i: number) => (
-                      <div key={i} className="border-b pb-4">
-                        <p className="font-medium">Q{i + 1}: {q.question}</p>
+                      <div key={i} className="border-b pb-3 sm:pb-4">
+                        <p className="font-medium text-sm sm:text-base">Q{i + 1}: {q.question}</p>
                         {q.options && (
-                          <ul className="mt-2 space-y-1">
+                          <ul className="mt-2 space-y-1 text-xs sm:text-sm">
                             {q.options.map((opt: string, j: number) => (
                               <li key={j} className={opt === q.correctAnswer ? 'text-green-600 font-medium' : ''}>
                                 {opt}
@@ -135,7 +135,7 @@ export function HistorySidebar({ isOpen, onClose }: {
                     ))}
                   </div>
                 ) : (
-                  <div className="whitespace-pre-wrap">{selectedItem.content.content}</div>
+                  <div className="whitespace-pre-wrap text-xs sm:text-sm">{selectedItem.content.content}</div>
                 )}
               </div>
             </Card>

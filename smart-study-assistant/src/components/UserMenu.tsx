@@ -29,20 +29,20 @@ export function UserMenu({
 
   if (!session) {
     return (
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center gap-1.5 sm:gap-2">
         <Button
           variant="outline"
           size="sm"
           onClick={() => onAuthClick?.('login')}
-          className="flex items-center space-x-2"
+          className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3"
         >
-          <LogIn className="h-4 w-4" />
-          <span>Masuk</span>
+          <LogIn className="h-3 w-3 sm:h-4 sm:w-4" />
+          <span className="hidden sm:inline">Masuk</span>
         </Button>
         <Button
           size="sm"
           onClick={() => onAuthClick?.('signup')}
-          className="bg-gray-900 hover:bg-gray-800 text-white"
+          className="bg-gray-900 hover:bg-gray-800 text-white text-xs sm:text-sm px-2 sm:px-3"
         >
           Daftar
         </Button>
@@ -54,22 +54,22 @@ export function UserMenu({
     <div className="relative" ref={menuRef}>
       <button
         onClick={() => setShowMenu(!showMenu)}
-        className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+        className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-lg hover:bg-gray-100 transition-colors"
       >
-        <div className="w-8 h-8 bg-gradient-to-br from-gray-600 to-gray-800 rounded-full flex items-center justify-center text-white font-semibold">
+        <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-gray-600 to-gray-800 rounded-full flex items-center justify-center text-white text-xs sm:text-sm font-semibold flex-shrink-0">
           {(session.user?.name || session.user?.email || 'U')[0].toUpperCase()}
         </div>
-        <span className="text-sm font-medium text-gray-900 hidden sm:block">
+        <span className="text-xs sm:text-sm font-medium text-gray-900 hidden md:block max-w-[120px] truncate">
           {session.user?.name || session.user?.email}
         </span>
-        <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${showMenu ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-3 h-3 sm:w-4 sm:h-4 text-gray-500 transition-transform flex-shrink-0 ${showMenu ? 'rotate-180' : ''}`} />
       </button>
       
       {showMenu && (
-        <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
-          <div className="px-4 py-3 border-b border-gray-100">
-            <p className="text-sm font-medium text-gray-900">{session.user?.name}</p>
-            <p className="text-xs text-gray-500 truncate">{session.user?.email}</p>
+        <div className="absolute right-0 mt-2 w-48 sm:w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
+          <div className="px-3 sm:px-4 py-2 sm:py-3 border-b border-gray-100">
+            <p className="text-xs sm:text-sm font-medium text-gray-900 truncate">{session.user?.name}</p>
+            <p className="text-[10px] sm:text-xs text-gray-500 truncate">{session.user?.email}</p>
           </div>
           
           <button
@@ -77,19 +77,19 @@ export function UserMenu({
               onHistoryClick?.()
               setShowMenu(false)
             }}
-            className="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center space-x-3 transition-colors"
+            className="w-full px-3 sm:px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-2 sm:gap-3 transition-colors"
           >
-            <History className="w-4 h-4 text-gray-600" />
-            <span className="text-sm text-gray-700">View History</span>
+            <History className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600 flex-shrink-0" />
+            <span className="text-xs sm:text-sm text-gray-700">View History</span>
           </button>
           
           <div className="border-t border-gray-100 mt-2 pt-2">
             <button
               onClick={() => signOut()}
-              className="w-full px-4 py-2 text-left hover:bg-red-50 flex items-center space-x-3 text-red-600 transition-colors"
+              className="w-full px-3 sm:px-4 py-2 text-left hover:bg-red-50 flex items-center gap-2 sm:gap-3 text-red-600 transition-colors"
             >
-              <LogOut className="w-4 h-4" />
-              <span className="text-sm font-medium">Logout</span>
+              <LogOut className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+              <span className="text-xs sm:text-sm font-medium">Logout</span>
             </button>
           </div>
         </div>
