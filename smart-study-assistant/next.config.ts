@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [],
     qualities: [75, 90, 100],
   },
+  serverExternalPackages: ['pdf-parse', '@google/generative-ai'],
 };
 
 export default nextConfig;

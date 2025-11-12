@@ -1,51 +1,15 @@
 ﻿import { NextRequest, NextResponse } from 'next/server'
-import OpenAI from 'openai'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { aiLimiter } from '@/lib/rate-limit'
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || '',
-})
+import { generateQuizWithGemini, USE_GEMINI } from '@/lib/gemini'
+import { generateQuizWithHuggingFace, USE_HUGGINGFACE } from '@/lib/huggingface'
 
 interface QuizQuestion {
   question: string
   options?: string[]
   correctAnswer: string
   type: 'multiple_choice' | 'essay'
-}
-
-async function generateQuizWithAI(text: string, type: 'multiple_choice' | 'essay', count: number = 5): Promise<QuizQuestion[]> {
-  const prompt = type === 'multiple_choice' 
-    ? `Generate ${count} multiple choice questions based on this text. Each question should have 4 options and indicate the correct answer. Return as JSON array with format: [{"question": "...", "options": ["A", "B", "C", "D"], "correctAnswer": "A", "type": "multiple_choice"}]. Text: ${text}`
-    : `Generate ${count} essay questions based on this text. Include suggested key points for the answer. Return as JSON array with format: [{"question": "...", "correctAnswer": "Key points: ...", "type": "essay"}]. Text: ${text}`
-
-  try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [
-        {
-          role: "system",
-          content: "You are an expert educational content creator. Generate high-quality quiz questions based on the provided text."
-        },
-        {
-          role: "user",
-          content: prompt
-        }
-      ],
-      temperature: 0.7,
-      max_tokens: 2000,
-    })
-
-    const content = response.choices[0].message.content
-    if (!content) throw new Error('No content generated')
-    
-    const questions = JSON.parse(content)
-    return questions
-  } catch (error) {
-    console.error('OpenAI API Error:', error)
-    throw error
-  }
 }
 
 function generateMockQuestions(type: 'multiple_choice' | 'essay', count: number): QuizQuestion[] {
@@ -119,10 +83,43 @@ export async function POST(request: NextRequest) {
     }
     
     let questions: QuizQuestion[]
-    try {
-      questions = await generateQuizWithAI(text, type, count)
-    } catch (aiError) {
-      console.log('AI generation failed, using fallback')
+    
+    // Try multiple AI providers with fallback
+    if (USE_GEMINI) {
+      try {
+        console.log('🤖 Trying Gemini AI...')
+        questions = await generateQuizWithGemini(text, type, count)
+        console.log('✅ Gemini AI generation successful')
+      } catch (geminiError: any) {
+        console.log('⚠️ Gemini AI failed:', geminiError.message)
+        
+        // Fallback to Hugging Face
+        if (USE_HUGGINGFACE) {
+          try {
+            console.log('🤗 Trying Hugging Face AI...')
+            questions = await generateQuizWithHuggingFace(text, type, count)
+            console.log('✅ Hugging Face generation successful')
+          } catch (hfError: any) {
+            console.log('⚠️ Hugging Face failed:', hfError.message)
+            console.log('📝 Using fallback mock data')
+            questions = generateMockQuestions(type, count)
+          }
+        } else {
+          console.log('📝 Using fallback mock data')
+          questions = generateMockQuestions(type, count)
+        }
+      }
+    } else if (USE_HUGGINGFACE) {
+      try {
+        console.log('🤗 Generating quiz with Hugging Face AI...')
+        questions = await generateQuizWithHuggingFace(text, type, count)
+        console.log('✅ Hugging Face generation successful')
+      } catch (hfError) {
+        console.log('⚠️ Hugging Face failed, using mock data')
+        questions = generateMockQuestions(type, count)
+      }
+    } else {
+      console.log('⚠️ No AI configured, using mock data')
       questions = generateMockQuestions(type, count)
     }
     
