@@ -39,7 +39,7 @@ async function getAvailableModel(): Promise<string> {
   } catch (error: any) {
     console.error('❌ Failed to list models:', error.response?.data || error.message)
     // Fallback to known model name
-    return 'gemini-pro'
+    return 'gemini-2.5-pro'
   }
 }
 
