@@ -3,7 +3,7 @@ import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { aiLimiter } from '@/lib/rate-limit'
 import { generateSummaryWithGemini, USE_GEMINI } from '@/lib/gemini'
-import { generateSummaryWithHuggingFace, USE_HUGGINGFACE } from '@/lib/huggingface'
+import { generateSummaryWithQwen2 } from '@/lib/qwen2-local'
 
 // Mock AI service untuk generate ringkasan (fallback)
 function generateMockSummary(text: string): { summary: string; keyPoints: string[] } {
@@ -60,44 +60,31 @@ export async function POST(request: NextRequest) {
     }
     
     // Generate summary using multiple AI providers with fallback
+    // Priority: Qwen2 Local (FREE, FAST) → Gemini (quota limited) → Mock data
     let result: { summary: string; keyPoints: string[] }
     
-    if (USE_GEMINI) {
-      try {
-        console.log('🤖 Trying Gemini AI...')
-        result = await generateSummaryWithGemini(text)
-        console.log('✅ Gemini AI generation successful')
-      } catch (geminiError: any) {
-        console.log('⚠️ Gemini AI failed:', geminiError.message)
-        
-        // Fallback to Hugging Face
-        if (USE_HUGGINGFACE) {
-          try {
-            console.log('🤗 Trying Hugging Face AI...')
-            result = await generateSummaryWithHuggingFace(text)
-            console.log('✅ Hugging Face generation successful')
-          } catch (hfError: any) {
-            console.log('⚠️ Hugging Face failed:', hfError.message)
-            console.log('📝 Using fallback mock data')
-            result = generateMockSummary(text)
-          }
-        } else {
+    try {
+      console.log('🖥️ Generating summary with Qwen2 7B Local...')
+      result = await generateSummaryWithQwen2(text)
+      console.log('✅ Qwen2 Local generation successful')
+    } catch (qwenError: any) {
+      console.log('⚠️ Qwen2 Local failed:', qwenError.message)
+      
+      // Fallback to Gemini
+      if (USE_GEMINI) {
+        try {
+          console.log('🤖 Trying Gemini AI...')
+          result = await generateSummaryWithGemini(text)
+          console.log('✅ Gemini AI generation successful')
+        } catch (geminiError: any) {
+          console.log('⚠️ Gemini AI failed:', geminiError.message)
           console.log('📝 Using fallback mock data')
           result = generateMockSummary(text)
         }
-      }
-    } else if (USE_HUGGINGFACE) {
-      try {
-        console.log('🤗 Generating summary with Hugging Face AI...')
-        result = await generateSummaryWithHuggingFace(text)
-        console.log('✅ Hugging Face generation successful')
-      } catch (hfError) {
-        console.log('⚠️ Hugging Face failed, using mock data')
+      } else {
+        console.log('📝 Using fallback mock data')
         result = generateMockSummary(text)
       }
-    } else {
-      console.log('⚠️ No AI configured, using mock data')
-      result = generateMockSummary(text)
     }
 
     // Save to database if user is logged in and saveToHistory is true

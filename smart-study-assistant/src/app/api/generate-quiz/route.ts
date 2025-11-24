@@ -3,7 +3,7 @@ import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { aiLimiter } from '@/lib/rate-limit'
 import { generateQuizWithGemini, USE_GEMINI } from '@/lib/gemini'
-import { generateQuizWithHuggingFace, USE_HUGGINGFACE } from '@/lib/huggingface'
+import { generateQuizWithQwen2 } from '@/lib/qwen2-local'
 
 interface QuizQuestion {
   question: string
@@ -85,42 +85,29 @@ export async function POST(request: NextRequest) {
     let questions: QuizQuestion[]
     
     // Try multiple AI providers with fallback
-    if (USE_GEMINI) {
-      try {
-        console.log('🤖 Trying Gemini AI...')
-        questions = await generateQuizWithGemini(text, type, count)
-        console.log('✅ Gemini AI generation successful')
-      } catch (geminiError: any) {
-        console.log('⚠️ Gemini AI failed:', geminiError.message)
-        
-        // Fallback to Hugging Face
-        if (USE_HUGGINGFACE) {
-          try {
-            console.log('🤗 Trying Hugging Face AI...')
-            questions = await generateQuizWithHuggingFace(text, type, count)
-            console.log('✅ Hugging Face generation successful')
-          } catch (hfError: any) {
-            console.log('⚠️ Hugging Face failed:', hfError.message)
-            console.log('📝 Using fallback mock data')
-            questions = generateMockQuestions(type, count)
-          }
-        } else {
+    // Priority: Qwen2 Local (FREE, FAST) → Gemini (quota limited) → Mock data
+    try {
+      console.log('🖥️ Generating quiz with Qwen2 7B Local...')
+      questions = await generateQuizWithQwen2(text, type, count)
+      console.log('✅ Qwen2 Local generation successful')
+    } catch (qwenError: any) {
+      console.log('⚠️ Qwen2 Local failed:', qwenError.message)
+      
+      // Fallback to Gemini
+      if (USE_GEMINI) {
+        try {
+          console.log('🤖 Trying Gemini AI...')
+          questions = await generateQuizWithGemini(text, type, count)
+          console.log('✅ Gemini AI generation successful')
+        } catch (geminiError: any) {
+          console.log('⚠️ Gemini AI failed:', geminiError.message)
           console.log('📝 Using fallback mock data')
           questions = generateMockQuestions(type, count)
         }
-      }
-    } else if (USE_HUGGINGFACE) {
-      try {
-        console.log('🤗 Generating quiz with Hugging Face AI...')
-        questions = await generateQuizWithHuggingFace(text, type, count)
-        console.log('✅ Hugging Face generation successful')
-      } catch (hfError) {
-        console.log('⚠️ Hugging Face failed, using mock data')
+      } else {
+        console.log('📝 Using fallback mock data')
         questions = generateMockQuestions(type, count)
       }
-    } else {
-      console.log('⚠️ No AI configured, using mock data')
-      questions = generateMockQuestions(type, count)
     }
     
     // Save to history disabled for now - will be enabled when auth is configured

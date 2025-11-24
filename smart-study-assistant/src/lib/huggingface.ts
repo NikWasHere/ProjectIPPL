@@ -1,60 +1,95 @@
 /**
- * Hugging Face Inference API Integration
- * FREE & UNLIMITED - No credit card needed
- * Get API key: https://huggingface.co/settings/tokens
+ * FREE LLM Integration using Groq API
+ * Models: Llama 3, Mixtral, Gemma - ALL FREE & FAST!
+ * 
+ * Groq provides FREE unlimited inference for:
+ * - llama3-70b-8192 (70B, very powerful)
+ * - llama3-8b-8192 (8B, fast)
+ * - mixtral-8x7b-32768 (MoE, excellent quality)
+ * - gemma-7b-it (7B, Google model)
+ * 
+ * Get free API key: https://console.groq.com/keys
+ * Docs: https://console.groq.com/docs
  */
 
 import axios from 'axios'
 
-const HF_API_KEY = process.env.HUGGINGFACE_API_KEY || ''
+const GROQ_API_KEY = process.env.GROQ_API_KEY || ''
+const HF_API_KEY = process.env.HUGGINGFACE_API_KEY || '' // Backup
 
-// Using Google Flan-T5 - Always available on free tier, multilingual
-// Alternative: 'facebook/bart-large-cnn' for summarization
-const MODEL = 'google/flan-t5-large'
-const HF_API_URL = `https://api-inference.huggingface.co/models/${MODEL}`
+// Groq API - FREE & FASTEST inference
+const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions'
+const GROQ_MODEL = 'llama3-70b-8192' // 70B model, FREE, very powerful for Indonesian
 
-interface HuggingFaceResponse {
+interface AIResponse {
   generated_text?: string
   error?: string
 }
 
 /**
- * Call Hugging Face Inference API
+ * Call Groq API (FREE LLM inference)
+ * Using Llama 3 70B - FREE unlimited, super fast
  */
-async function callHuggingFace(prompt: string): Promise<string> {
-  if (!HF_API_KEY || HF_API_KEY === 'your-huggingface-token-here') {
-    throw new Error('Hugging Face API key not configured')
+async function callGroqLLM(prompt: string): Promise<string> {
+  if (!GROQ_API_KEY || GROQ_API_KEY === 'your-groq-api-key-here') {
+    throw new Error(
+      'Groq API key not configured. ' +
+      'Please add GROQ_API_KEY to your .env file. ' +
+      'Get FREE key from: https://console.groq.com/keys (no credit card needed!)'
+    )
   }
 
   try {
-    const response = await axios.post<HuggingFaceResponse[]>(
-      HF_API_URL,
+    console.log(`🚀 Calling Groq ${GROQ_MODEL}...`)
+    
+    const response = await axios.post(
+      GROQ_API_URL,
       {
-        inputs: prompt,
-        parameters: {
-          max_new_tokens: 2000,
-          temperature: 0.7,
-          top_p: 0.95,
-          return_full_text: false
-        }
+        model: GROQ_MODEL,
+        messages: [
+          {
+            role: "system",
+            content: "Anda adalah asisten AI yang ahli membuat soal ujian dan ringkasan. Selalu jawab dalam bahasa Indonesia dengan format JSON yang valid dan struktural."
+          },
+          {
+            role: "user",
+            content: prompt
+          }
+        ],
+        temperature: 0.7,
+        max_tokens: 2048,
+        top_p: 0.95,
+        stream: false
       },
       {
         headers: {
-          'Authorization': `Bearer ${HF_API_KEY}`,
+          'Authorization': `Bearer ${GROQ_API_KEY}`,
           'Content-Type': 'application/json'
         },
-        timeout: 60000 // Increase timeout for free tier
+        timeout: 60000
       }
     )
 
-    const result = response.data[0]?.generated_text
+    const result = response.data?.choices?.[0]?.message?.content
     if (!result) {
-      throw new Error('No response from Hugging Face')
+      throw new Error('No response from Groq LLM')
     }
 
+    console.log(`✅ Groq response received (${result.length} chars)`)
     return result.trim()
+    
   } catch (error: any) {
-    console.error('Hugging Face API error:', error.response?.data || error.message)
+    console.error('Groq API error:', error.response?.data || error.message)
+    
+    // Better error messages
+    if (error.response?.status === 429) {
+      throw new Error('Rate limit exceeded. Please wait a moment and try again.')
+    } else if (error.response?.status === 401) {
+      throw new Error('Invalid Groq API key. Check your token at https://console.groq.com/keys')
+    } else if (error.response?.status === 400) {
+      throw new Error('Invalid request format.')
+    }
+    
     throw error
   }
 }
@@ -67,59 +102,78 @@ export async function generateQuizWithHuggingFace(
   type: 'multiple_choice' | 'essay',
   count: number = 5
 ) {
-  const limitedText = text.substring(0, 4000) // Smaller limit for free tier
+  const limitedText = text.substring(0, 4000) // Groq has large context
 
   const prompt = type === 'multiple_choice'
-    ? `Generate ${count} multiple choice questions in Indonesian language based on the following text. Output must be valid JSON only.
+    ? `Berdasarkan teks berikut, buatlah ${count} soal pilihan ganda dalam bahasa Indonesia:
 
-TEXT:
+TEKS:
 ${limitedText}
 
-Create ${count} multiple choice questions with 4 options (A, B, C, D) and mark the correct answer.
+INSTRUKSI:
+- Buat ${count} soal pilihan ganda berkualitas tinggi
+- Setiap soal harus punya 4 pilihan jawaban
+- Tandai jawaban yang benar
+- Soal harus menguji pemahaman mendalam, bukan hafalan
 
-Output JSON format (JSON ONLY, no other text):
+OUTPUT HARUS JSON VALID (tanpa markdown, tanpa penjelasan):
 {
   "questions": [
     {
-      "question": "Question in Indonesian?",
-      "options": ["Option A", "Option B", "Option C", "Option D"],
-      "correctAnswer": "Option A",
+      "question": "Pertanyaan?",
+      "options": ["Pilihan A", "Pilihan B", "Pilihan C", "Pilihan D"],
+      "correctAnswer": "Pilihan A",
       "type": "multiple_choice"
     }
   ]
-}`
-    : `Generate ${count} essay questions in Indonesian language based on the following text. Output must be valid JSON only.
+}
 
-TEXT:
+Jawab HANYA dengan JSON di atas, tidak ada teks lain.`
+    : `Berdasarkan teks berikut, buatlah ${count} soal essay dalam bahasa Indonesia:
+
+TEKS:
 ${limitedText}
 
-Create ${count} deep essay questions with expected answers.
+INSTRUKSI:
+- Buat ${count} soal essay yang mendalam dan analitis
+- Sertakan panduan jawaban lengkap untuk setiap soal
+- Soal harus menguji analisis dan pemikiran kritis
 
-Output JSON format (JSON ONLY, no other text):
+OUTPUT HARUS JSON VALID (tanpa markdown, tanpa penjelasan):
 {
   "questions": [
     {
-      "question": "Essay question in Indonesian?",
-      "correctAnswer": "Expected answer",
+      "question": "Pertanyaan essay?",
+      "correctAnswer": "Panduan jawaban lengkap",
       "type": "essay"
     }
   ]
-}`
+}
+
+Jawab HANYA dengan JSON di atas, tidak ada teks lain.`
 
   try {
-    const response = await callHuggingFace(prompt)
+    const response = await callGroqLLM(prompt)
     
     // Extract JSON from response
     let jsonStr = response
-    const jsonMatch = response.match(/\{[\s\S]*\}/)
+    
+    // Try to find JSON in the response
+    const jsonMatch = response.match(/\{[\s\S]*"questions"[\s\S]*\}/)
     if (jsonMatch) {
       jsonStr = jsonMatch[0]
     }
     
+    // Clean up common issues
+    jsonStr = jsonStr
+      .replace(/```json\n?/g, '')
+      .replace(/```\n?/g, '')
+      .trim()
+    
     const data = JSON.parse(jsonStr)
     return data.questions || []
   } catch (error) {
-    console.error('Failed to parse Hugging Face response:', error)
+    console.error('Failed to generate quiz with Groq LLM:', error)
     throw error
   }
 }
@@ -128,34 +182,48 @@ Output JSON format (JSON ONLY, no other text):
  * Generate summary using Hugging Face
  */
 export async function generateSummaryWithHuggingFace(text: string) {
-  const limitedText = text.substring(0, 4000)
+  const limitedText = text.substring(0, 4000) // Groq has large context
 
-  const prompt = `Summarize the following text in Indonesian language and extract key points. Output must be valid JSON only.
+  const prompt = `Buatkan ringkasan dari teks berikut dalam bahasa Indonesia:
 
-TEXT:
+TEKS:
 ${limitedText}
 
-Create a clear summary (2-3 paragraphs) and extract 5-7 most important key points.
+INSTRUKSI:
+- Buat ringkasan yang jelas dan padat (2-3 paragraf)
+- Ekstrak 6-8 poin kunci yang paling penting
+- Fokus pada ide utama dan konsep penting
+- Gunakan bahasa yang mudah dipahami
 
-Output JSON format (JSON ONLY, no other text):
+OUTPUT HARUS JSON VALID (tanpa markdown, tanpa penjelasan):
 {
-  "summary": "Summary text in Indonesian in 2-3 paragraphs...",
+  "summary": "Ringkasan dalam 2-3 paragraf...",
   "keyPoints": [
-    "Key point 1",
-    "Key point 2",
-    "Key point 3"
+    "Poin kunci 1",
+    "Poin kunci 2",
+    "Poin kunci 3"
   ]
-}`
+}
+
+Jawab HANYA dengan JSON di atas, tidak ada teks lain.`
 
   try {
-    const response = await callHuggingFace(prompt)
+    const response = await callGroqLLM(prompt)
     
     // Extract JSON from response
     let jsonStr = response
-    const jsonMatch = response.match(/\{[\s\S]*\}/)
+    
+    // Try to find JSON in the response
+    const jsonMatch = response.match(/\{[\s\S]*"summary"[\s\S]*\}/)
     if (jsonMatch) {
       jsonStr = jsonMatch[0]
     }
+    
+    // Clean up common issues
+    jsonStr = jsonStr
+      .replace(/```json\n?/g, '')
+      .replace(/```\n?/g, '')
+      .trim()
     
     const data = JSON.parse(jsonStr)
     return {
@@ -163,11 +231,17 @@ Output JSON format (JSON ONLY, no other text):
       keyPoints: data.keyPoints || []
     }
   } catch (error) {
-    console.error('Failed to parse Hugging Face response:', error)
+    console.error('Failed to generate summary with Groq LLM:', error)
     throw error
   }
 }
 
-export const USE_HUGGINGFACE = !!HF_API_KEY && HF_API_KEY !== 'your-huggingface-token-here'
+// Check if Groq LLM is configured
+export const USE_HUGGINGFACE = !!GROQ_API_KEY && !GROQ_API_KEY.includes('your-groq-api-key')
 
-console.log(`🤗 Hugging Face configured: ${USE_HUGGINGFACE ? 'Yes' : 'No'}`)
+console.log(`🚀 Groq LLM configured: ${USE_HUGGINGFACE ? 'Yes' : 'No'}`)
+if (USE_HUGGINGFACE) {
+  console.log(`   Model: ${GROQ_MODEL} (Llama 3 70B)`)
+  console.log(`   API: Groq (FREE, unlimited, super fast!)`)
+  console.log(`   Get key: https://console.groq.com/keys`)
+}
