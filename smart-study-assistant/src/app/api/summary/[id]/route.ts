@@ -5,7 +5,7 @@ import { prisma } from '@/lib/db'
 // GET single summary by ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -18,7 +18,7 @@ export async function GET(
     }
 
     const userId = (session.user as any).id
-    const summaryId = params.id
+    const { id: summaryId } = await params
 
     const summary = await prisma.summary.findFirst({
       where: {
@@ -66,7 +66,7 @@ export async function GET(
 // PUT - Update summary
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -79,7 +79,7 @@ export async function PUT(
     }
 
     const userId = (session.user as any).id
-    const summaryId = params.id
+    const { id: summaryId } = await params
     const body = await request.json()
     const { title, content } = body
 
@@ -135,7 +135,7 @@ export async function PUT(
 // DELETE summary
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -148,7 +148,7 @@ export async function DELETE(
     }
 
     const userId = (session.user as any).id
-    const summaryId = params.id
+    const { id: summaryId } = await params
 
     // Verify ownership
     const existingSummary = await prisma.summary.findFirst({
