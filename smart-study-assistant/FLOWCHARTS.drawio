@@ -1,0 +1,187 @@
+<mxfile host="app.diagrams.net" modified="2025-12-09T00:00:00.000Z" agent="Draw.io" version="22.0.0">
+
+  
+  <diagram name="Flowchart - Generate Summary" id="flowchart-summary">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title-summary" value="FLOWCHART: GENERATE SUMMARY PROCESS" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="264" y="20" width="300" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Start -->
+        <mxCell id="start-summary" value="START" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="354" y="70" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- User Input -->
+        <mxCell id="input-summary" value="User Input Text&#xa;or Upload PDF" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="324" y="160" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow1-summary" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="start-summary" target="input-summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Validate Length -->
+        <mxCell id="validate-summary" value="Validate Input&#xa;(min 50 chars)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="354" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow2-summary" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="input-summary" target="validate-summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Check Valid -->
+        <mxCell id="check-valid-summary" value="Valid&#xa;Input?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="354" y="340" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow3-summary" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="validate-summary" target="check-valid-summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Error -->
+        <mxCell id="error-summary" value="Show Error" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="554" y="350" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow-error-summary" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="check-valid-summary" target="error-summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label-no-summary" value="NO" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="484" y="360" width="30" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Rate Limit -->
+        <mxCell id="rate-limit-summary" value="Check Rate Limit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="354" y="450" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow4-summary" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="check-valid-summary" target="rate-limit-summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label-yes-summary" value="YES" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="414" y="425" width="30" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Call Qwen2 -->
+        <mxCell id="call-qwen2-summary" value="Call Qwen2 AI&#xa;for Summary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="354" y="540" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow5-summary" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="rate-limit-summary" target="call-qwen2-summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Check Success -->
+        <mxCell id="check-ai-summary" value="Qwen2&#xa;Success?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="354" y="630" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow6-summary" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="call-qwen2-summary" target="check-ai-summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Fallback Gemini -->
+        <mxCell id="fallback-gemini-summary" value="Try Gemini API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="554" y="640" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow-fallback-summary" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="check-ai-summary" target="fallback-gemini-summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label-qwen-no-summary" value="NO" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="484" y="650" width="30" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Parse Response -->
+        <mxCell id="parse-summary" value="Parse Summary&#xa;&amp; Key Points" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="354" y="740" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow7-summary" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="check-ai-summary" target="parse-summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label-qwen-yes-summary" value="YES" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="414" y="715" width="30" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Gemini to Parse -->
+        <mxCell id="arrow-gemini-parse-summary" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=classic;endFill=1;" edge="1" parent="1" source="fallback-gemini-summary" target="parse-summary">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="614" y="770" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Calculate Stats -->
+        <mxCell id="calc-stats-summary" value="Calculate Compression&#xa;Ratio &amp; Stats" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="354" y="830" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow8-summary" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="parse-summary" target="calc-stats-summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Check Login -->
+        <mxCell id="check-login-summary" value="User&#xa;Logged In?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="354" y="920" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow9-summary" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="calc-stats-summary" target="check-login-summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Save Database -->
+        <mxCell id="save-db-summary" value="Save to Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="554" y="920" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow-save-summary" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="check-login-summary" target="save-db-summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label-login-yes-summary" value="YES" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="484" y="940" width="30" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Display Result -->
+        <mxCell id="display-summary" value="Display Summary&#xa;to User" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="334" y="1030" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow10-summary" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="check-login-summary" target="display-summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label-login-no-summary" value="NO" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="414" y="1005" width="30" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- DB to Display -->
+        <mxCell id="arrow-db-display-summary" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=classic;endFill=1;" edge="1" parent="1" source="save-db-summary" target="display-summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- End -->
+        <mxCell id="end-summary" value="END" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="354" y="1120" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow11-summary" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="display-summary" target="end-summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

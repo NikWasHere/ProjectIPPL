@@ -1,0 +1,226 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Use Case Diagram" id="use-case-diagram">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- System Boundary -->
+        <mxCell id="system-boundary" value="Smart Study Assistant System" style="swimlane;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;startSize=40;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="80" width="640" height="640" as="geometry" />
+        </mxCell>
+        
+        <!-- Use Cases -->
+        <!-- Authentication Use Cases -->
+        <mxCell id="uc-register" value="Register Account" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="system-boundary">
+          <mxGeometry x="80" y="60" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="uc-login" value="Login" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="system-boundary">
+          <mxGeometry x="240" y="60" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="uc-logout" value="Logout" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="system-boundary">
+          <mxGeometry x="400" y="60" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Input Use Cases -->
+        <mxCell id="uc-input-text" value="Input Text Manually" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="system-boundary">
+          <mxGeometry x="80" y="160" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="uc-upload-pdf" value="Upload PDF File" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="system-boundary">
+          <mxGeometry x="240" y="160" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="uc-extract-text" value="Extract Text from PDF" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="system-boundary">
+          <mxGeometry x="400" y="160" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Quiz Generation Use Cases -->
+        <mxCell id="uc-generate-quiz" value="Generate Quiz Questions" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" vertex="1" parent="system-boundary">
+          <mxGeometry x="80" y="260" width="140" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="uc-multiple-choice" value="Generate Multiple Choice Quiz" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="system-boundary">
+          <mxGeometry x="260" y="240" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="uc-essay" value="Generate Essay Quiz" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="system-boundary">
+          <mxGeometry x="400" y="240" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Summary Generation Use Cases -->
+        <mxCell id="uc-generate-summary" value="Generate Summary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" vertex="1" parent="system-boundary">
+          <mxGeometry x="80" y="360" width="140" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="uc-paragraph-summary" value="Generate Paragraph Summary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="system-boundary">
+          <mxGeometry x="260" y="340" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="uc-bullet-summary" value="Generate Bullet Points Summary" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="system-boundary">
+          <mxGeometry x="400" y="340" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- History Management Use Cases -->
+        <mxCell id="uc-view-history" value="View History" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="system-boundary">
+          <mxGeometry x="80" y="460" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="uc-save-result" value="Save Result to History" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="system-boundary">
+          <mxGeometry x="240" y="460" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="uc-delete-history" value="Delete History Item" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="system-boundary">
+          <mxGeometry x="400" y="460" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Result Management Use Cases -->
+        <mxCell id="uc-view-result" value="View Generated Result" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="system-boundary">
+          <mxGeometry x="80" y="560" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="uc-copy-result" value="Copy Result to Clipboard" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="system-boundary">
+          <mxGeometry x="240" y="560" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Actors -->
+        <!-- Guest User -->
+        <mxCell id="actor-guest" value="Guest User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="120" y="240" width="40" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Registered User -->
+        <mxCell id="actor-registered" value="Registered User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="120" y="400" width="40" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- AI System -->
+        <mxCell id="actor-ai" value="AI System&#xa;(Qwen2/Gemini)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="360" width="40" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Database -->
+        <mxCell id="actor-database" value="Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="520" width="60" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Associations - Guest User -->
+        <mxCell id="assoc-guest-input" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="actor-guest" target="uc-input-text">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="assoc-guest-upload" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="actor-guest" target="uc-upload-pdf">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="assoc-guest-quiz" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="actor-guest" target="uc-generate-quiz">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="assoc-guest-summary" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="actor-guest" target="uc-generate-summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="assoc-guest-view" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="actor-guest" target="uc-view-result">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="assoc-guest-copy" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="actor-guest" target="uc-copy-result">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Associations - Registered User -->
+        <mxCell id="assoc-reg-register" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="actor-registered" target="uc-register">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="assoc-reg-login" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="actor-registered" target="uc-login">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="assoc-reg-logout" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="actor-registered" target="uc-logout">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="assoc-reg-history" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="actor-registered" target="uc-view-history">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="assoc-reg-save" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="actor-registered" target="uc-save-result">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="assoc-reg-delete" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="actor-registered" target="uc-delete-history">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Include/Extend Relationships -->
+        <mxCell id="include-upload-extract" value="include" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="uc-upload-pdf" target="uc-extract-text">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="extend-quiz-mc" value="extend" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="uc-multiple-choice" target="uc-generate-quiz">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="extend-quiz-essay" value="extend" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="uc-essay" target="uc-generate-quiz">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="extend-summary-para" value="extend" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="uc-paragraph-summary" target="uc-generate-summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="extend-summary-bullet" value="extend" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="uc-bullet-summary" target="uc-generate-summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- AI System connections -->
+        <mxCell id="assoc-ai-quiz" style="edgeStyle=none;html=1;endArrow=none;endFill=0;strokeColor=#d79b00;" edge="1" parent="1" source="actor-ai" target="uc-generate-quiz">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="assoc-ai-summary" style="edgeStyle=none;html=1;endArrow=none;endFill=0;strokeColor=#d79b00;" edge="1" parent="1" source="actor-ai" target="uc-generate-summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Database connections -->
+        <mxCell id="assoc-db-save" style="edgeStyle=none;html=1;endArrow=none;endFill=0;strokeColor=#9673a6;" edge="1" parent="1" source="actor-database" target="uc-save-result">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="assoc-db-history" style="edgeStyle=none;html=1;endArrow=none;endFill=0;strokeColor=#9673a6;" edge="1" parent="1" source="actor-database" target="uc-view-history">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="assoc-db-delete" style="edgeStyle=none;html=1;endArrow=none;endFill=0;strokeColor=#9673a6;" edge="1" parent="1" source="actor-database" target="uc-delete-history">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Legend -->
+        <mxCell id="legend" value="LEGEND" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="600" width="200" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-auth" value="Authentication" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="legend">
+          <mxGeometry x="10" y="30" width="80" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-core" value="Core Features" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="legend">
+          <mxGeometry x="110" y="30" width="80" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-input" value="Input" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="legend">
+          <mxGeometry x="10" y="70" width="80" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-history" value="History" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="legend">
+          <mxGeometry x="110" y="70" width="80" height="30" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

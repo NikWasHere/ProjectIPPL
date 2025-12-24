@@ -74,19 +74,29 @@ smart-study-assistant/
 │   └── lib/                       # Backend logic & utilities
 │       ├── auth.ts                # NextAuth configuration
 │       ├── db.ts                  # Prisma client instance
-│       ├── gemini.ts              # Gemini AI integration
-│       ├── qwen2-local.ts         # Qwen2 Local (Ollama) integration
-│       ├── huggingface.ts         # Groq API integration (backup)
+│       ├── gemini.ts              # Gemini AI integration (fallback)
+│       ├── qwen2-local.ts         # Qwen2 Local (Ollama) integration (PRIMARY)
+│       ├── fetch-polyfill.ts      # Fetch polyfill for Node.js
 │       ├── rate-limit.ts          # Rate limiting
 │       ├── helpers.ts             # Helper functions
 │       ├── constants.ts           # App constants
 │       └── utils.ts               # Utility functions
+│
+├── scripts/
+│   └── check-db.js                # Database checker utility
 │
 ├── test-qwen2.js                  # Test script untuk Qwen2
 ├── package.json                   # Dependencies
 ├── tsconfig.json                  # TypeScript config
 ├── next.config.ts                 # Next.js config
 ├── .env                           # Environment variables
+├── .env.example                   # Environment variables template
+├── ARCHITECTURE.md                # Architecture documentation (this file)
+├── OLLAMA_SETUP.md                # Ollama & Qwen2 setup guide
+├── GEMINI_SETUP.md                # Gemini API setup guide
+├── DEPLOYMENT.md                  # Deployment guide
+├── USER_GUIDE.md                  # User guide
+├── CRUD_API_DOCUMENTATION.md      # API documentation
 └── README.md                      # Project README
 ```
 
