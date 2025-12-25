@@ -34,7 +34,7 @@ services:
       - app-network
     depends_on:
       - ollama
-    command: sh -c "npx prisma db push && node server.js"
+    command: sh -c "node server.js"
 
   # Optional: Ollama service for local AI model
   ollama:

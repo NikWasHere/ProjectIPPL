@@ -19,6 +19,8 @@ RUN npx prisma generate
 
 # Build Next.js application
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV DATABASE_URL="file:/tmp/dev.db"
+RUN npx prisma db push --skip-generate || true
 RUN npm run build
 
 # Stage 3: Runner
@@ -37,7 +39,9 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+
+# Copy all Prisma-related node_modules to avoid missing files
+COPY --from=builder /app/node_modules ./node_modules
 
 # Create directory for SQLite database
 RUN mkdir -p /app/data && chown -R nextjs:nodejs /app/data
