@@ -43,8 +43,10 @@ COPY --from=builder /app/prisma ./prisma
 # Copy all Prisma-related node_modules to avoid missing files
 COPY --from=builder /app/node_modules ./node_modules
 
-# Create directory for SQLite database
+# Create directories for SQLite database, cache, and uploads
 RUN mkdir -p /app/data && chown -R nextjs:nodejs /app/data
+RUN mkdir -p /app/.next/cache && chown -R nextjs:nodejs /app/.next
+RUN mkdir -p /app/public/uploads && chown -R nextjs:nodejs /app/public
 
 USER nextjs
 
