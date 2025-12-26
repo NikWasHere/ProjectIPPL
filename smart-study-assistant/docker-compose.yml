@@ -8,21 +8,21 @@ services:
     container_name: smart-study-assistant
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "3015:3000"
     environment:
       # Database
       DATABASE_URL: "file:/app/data/dev.db"
       
       # NextAuth Configuration
-      NEXTAUTH_URL: "http://localhost:3000"
+      NEXTAUTH_URL: "http://localhost:3015"
       NEXTAUTH_SECRET: "your-nextauth-secret-change-this-in-production"
       
       # Gemini API (optional - uncomment and add your key if using)
       # GEMINI_API_KEY: "your-gemini-api-key-here"
       
-      # Ollama Configuration (optional - uncomment if using Ollama)
-      # OLLAMA_BASE_URL: "http://ollama:11434"
-      # OLLAMA_MODEL: "qwen2:1.5b"
+      # Ollama Configuration (menggunakan host machine)
+      OLLAMA_BASE_URL: "http://host.docker.internal:11434"
+      OLLAMA_MODEL: "qwen2:7b"
       
       # General Settings
       NODE_ENV: "production"
@@ -32,8 +32,8 @@ services:
       - uploaded-files:/app/public/uploads
     networks:
       - app-network
-    depends_on:
-      - ollama
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     command: sh -c "node server.js"
 
   # Optional: Ollama service for local AI model

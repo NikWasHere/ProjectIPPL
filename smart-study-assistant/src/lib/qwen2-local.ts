@@ -12,8 +12,10 @@
 import axios from 'axios'
 
 // Ollama runs locally on port 11434
-const OLLAMA_API_URL = 'http://localhost:11434/api/generate'
-const QWEN_MODEL = 'qwen2:7b' // or 'qwen2:14b' for 14B version
+// Gunakan OLLAMA_BASE_URL dari env untuk Docker compatibility
+const OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || 'http://localhost:11434'
+const OLLAMA_API_URL = `${OLLAMA_BASE_URL}/api/generate`
+const QWEN_MODEL = process.env.OLLAMA_MODEL || 'qwen2:7b' // or 'qwen2:14b' for 14B version
 
 interface OllamaResponse {
   model: string
