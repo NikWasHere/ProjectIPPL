@@ -480,7 +480,7 @@ export default function Home() {
               <Logo size="sm" />
             </div>
             <p className="text-xs sm:text-sm px-4">
-              © 2024 SmartStudy AI. Dibuat dengan ❤️ untuk pendidikan yang lebih baik.
+              © 2025 SmartStudy AI Crafted with ❤️ by Niko Afandi (11221039) Informatika · Institut Teknologi Kalimantan
             </p>
           </div>
         </div>
