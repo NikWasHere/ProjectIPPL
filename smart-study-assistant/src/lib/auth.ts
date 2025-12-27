@@ -9,6 +9,8 @@ import type { NextAuthConfig } from "next-auth"
 
 export const authConfig = {
   adapter: PrismaAdapter(prisma),
+  trustHost: true,
+  basePath: "/api/auth",
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",

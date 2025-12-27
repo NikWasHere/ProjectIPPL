@@ -128,6 +128,7 @@ try {
     Write-Host "  ✅ Environment template (.env.production)" -ForegroundColor White
     Write-Host "  ✅ Setup scripts (rebuild-docker.ps1, test-ai.ps1)" -ForegroundColor White
     Write-Host "  ✅ Complete documentation (README-DEPLOYMENT.md)" -ForegroundColor White
+    Write-Host "  ✅ Auth 404 fix applied (NEXTAUTH_URL configured)" -ForegroundColor Green
     Write-Host ""
     Write-Host "Deployment Instructions:" -ForegroundColor Yellow
     Write-Host "1. Extract: unzip $OutputFile" -ForegroundColor White
