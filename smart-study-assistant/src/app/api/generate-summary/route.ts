@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
       keyPoints: result.keyPoints,
       originalLength: text.length,
       summaryLength: result.summary.length,
-      compressionRatio: Math.round((result.summary.length / text.length) * 100),
+      compressionRatio: Math.round((1 - (result.summary.length / text.length)) * 100),
       generatedAt: new Date().toISOString()
     })
     
